@@ -45,13 +45,6 @@ export function load(services: Services, apps: RegisterFunc[], opts: Options) {
   // Attach the probot log to the request object.
   app.use(logRequests);
 
-  // Hack for client-sessions. It uses a different field to query whether the
-  // connection is secure.
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.secure) (req.connection as any).proxySecure = true;
-    next();
-  });
-
   app.locals.info = opts.locals;
 
   // Cache negotiation options middleware.
@@ -76,7 +69,7 @@ export function load(services: Services, apps: RegisterFunc[], opts: Options) {
       cookie: {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: opts.production,
+        secureProxy: opts.production,
       },
     }),
   );
