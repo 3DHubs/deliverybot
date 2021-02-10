@@ -6,7 +6,7 @@ export function prClose(app: Application) {
    * Handles triggering pr close events and marking inactive deployments.
    */
   async function handlePRClose(context: Context) {
-    const ref = context.payload.pull_request.head.ref;
+    const ref = "heads/" + context.payload.pull_request.head.ref;
     const deployments = await context.github.repos.listDeployments(
       withPreview({ ...context.repo(), ref }),
     );
